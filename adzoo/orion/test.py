@@ -7,18 +7,34 @@ import argparse
 import os
 import torch
 import warnings
+import time
+import os.path as osp
+
+# change cwd with the Orion one
+os.chdir(os.path.join(os.getcwd(), 'projects/Orion'))
+print(f"Current working directory: {os.getcwd()}")
+
+# install the required packages
+os.system('pip install torch==2.7.1 torchvision==0.22.1 torchaudio==2.7.1 --index-url https://download.pytorch.org/whl/cu126')
+os.system('pip install -v -e .')
+import torch; print(torch.__version__)
+
+os.system('pip install -q -r requirements.txt')
+os.system('pip install flash-attn')
+
 from mmcv.utils import get_dist_info, init_dist, wrap_fp16_model, set_random_seed, Config, DictAction, load_checkpoint
 from mmcv.models import build_model, fuse_conv_bn
 from torch.nn import DataParallel
 from torch.nn.parallel.distributed import DistributedDataParallel
 
 from mmcv.datasets import build_dataset, build_dataloader, replace_ImageToTensor
-import time
-import os.path as osp
 from adzoo.orion.apis.test import custom_multi_gpu_test, single_gpu_test
 
 import warnings
 warnings.filterwarnings("ignore")
+
+
+
 
 def parse_args():
     parser = argparse.ArgumentParser(

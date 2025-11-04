@@ -1,2 +1,6 @@
 venv/
 ckpts/
+__pycache__/
+*.pyc
+data/chat-B2D/
+build/
